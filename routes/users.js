@@ -41,12 +41,12 @@ router.post("/signup", (req, res) => {
 
 /* Route pour la connexion */
 router.post("/signin", (req, res) => {
-  if (!checkBody(req.body, ['username', 'firstname', 'password'])) {
+  if (!checkBody(req.body, ['username', 'password'])) {
     res.json({ result: false, error: 'Missing or empty fields' });
     return;
   }
 
-  User.findOne({ username: req.body.username, firstname: req.body.firstname })
+  User.findOne({ username: req.body.username })
   .then(data => {
     if (data && bcrypt.compareSync(req.body.password, data.password)) {
       res.json({ result: true, token: data.token }); // User est enregistré 
