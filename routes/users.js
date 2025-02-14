@@ -30,7 +30,7 @@ router.post("/signup", (req, res) => {
       });
 
       newUser.save().then(newDoc => { // Sauvegarde le User dans la BDD
-        res.json({ result: true, token: newDoc.token }); // Si c'est true alors c'est sauvegarde
+        res.json({ result: true, userInfo: newDoc }); // Si c'est true alors c'est sauvegarde
       });
     } else {
       res.json({ result: false, error: '❌User already exists' }); // L'utilisateur existe déjà dans la base de données donc cest false
@@ -49,7 +49,7 @@ router.post("/signin", (req, res) => {
   User.findOne({ username: req.body.username })
   .then(data => {
     if (data && bcrypt.compareSync(req.body.password, data.password)) {
-      res.json({ result: true, token: data.token }); // User est enregistré 
+      res.json({ result: true, userInfo : data, token: data.token }); // User est enregistré 
     } else {
       res.json ({ result: false, error: "❌User not found" }) // User pas trouvé
     }
